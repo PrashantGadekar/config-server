@@ -1,0 +1,26 @@
+version: '3'
+services:
+  config:
+      image: config-app
+      build: spring-config-client/
+      restart: always
+      network_mode: host
+      container_name: config-docker
+      
+      ports:
+        - 8888:8888
+      expose:
+        - 8888
+
+  spring:
+      image: spring-app
+      build: spring-config-server/
+      restart: always
+      network_mode: host
+      container_name: user-docker
+      depends_on:
+        - config
+      ports:
+        - 8082:8082
+      expose:
+        - 8082
